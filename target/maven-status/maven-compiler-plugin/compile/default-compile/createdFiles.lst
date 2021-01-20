@@ -1,0 +1,4 @@
+com\dbo\api\VotacaoApiApplication.class
+com\dbo\api\repository\UsuarioRepository.class
+com\dbo\api\model\Usuario.class
+com\dbo\api\resource\UsuarioResource.class
