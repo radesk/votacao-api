@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +44,9 @@ public class UsuarioResource {
 	
 	@PostMapping
 	public ResponseEntity<Usuario> save(
-			@RequestBody Usuario usuario,
+			@RequestBody 
+			@Valid
+			Usuario usuario,
 			HttpServletResponse response) {
 		usuario.setId(UUID.randomUUID().toString());
 		Usuario savedUsuario = usuarioRepository.save(usuario);
