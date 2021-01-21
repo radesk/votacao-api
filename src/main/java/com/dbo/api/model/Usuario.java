@@ -17,7 +17,7 @@ public class Usuario {
 	private String id;
 	
 	@NotBlank
-	@Size(min = 9, max = 9)
+	@Size(min = 11, max = 11)
 	private String cpf;
 	private Boolean vota;
 

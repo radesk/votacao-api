@@ -1,4 +1,7 @@
+C:\Users\Angel\Documents\Projects\STS\votacao-api\votacao-api\src\main\java\com\dbo\api\listener\CreatedResourceListener.java
 C:\Users\Angel\Documents\Projects\STS\votacao-api\votacao-api\src\main\java\com\dbo\api\repository\UsuarioRepository.java
 C:\Users\Angel\Documents\Projects\STS\votacao-api\votacao-api\src\main\java\com\dbo\api\resource\UsuarioResource.java
 C:\Users\Angel\Documents\Projects\STS\votacao-api\votacao-api\src\main\java\com\dbo\api\VotacaoApiApplication.java
+C:\Users\Angel\Documents\Projects\STS\votacao-api\votacao-api\src\main\java\com\dbo\api\event\CreatedResourceEvent.java
+C:\Users\Angel\Documents\Projects\STS\votacao-api\votacao-api\src\main\java\com\dbo\api\exceptionhandler\VotacaoExceptionHandler.java
 C:\Users\Angel\Documents\Projects\STS\votacao-api\votacao-api\src\main\java\com\dbo\api\model\Usuario.java

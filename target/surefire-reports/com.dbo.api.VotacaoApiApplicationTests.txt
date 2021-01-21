@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.dbo.api.VotacaoApiApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.874 s - in com.dbo.api.VotacaoApiApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.111 s - in com.dbo.api.VotacaoApiApplicationTests

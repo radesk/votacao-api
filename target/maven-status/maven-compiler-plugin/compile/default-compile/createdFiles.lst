@@ -1,4 +1,8 @@
 com\dbo\api\VotacaoApiApplication.class
+com\dbo\api\listener\CreatedResourceListener.class
 com\dbo\api\repository\UsuarioRepository.class
 com\dbo\api\model\Usuario.class
+com\dbo\api\exceptionhandler\VotacaoExceptionHandler.class
+com\dbo\api\exceptionhandler\VotacaoExceptionHandler$Error.class
 com\dbo\api\resource\UsuarioResource.class
+com\dbo\api\event\CreatedResourceEvent.class
