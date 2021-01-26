@@ -41,11 +41,11 @@ public class UsuarioResource {
 		return usuarioRepository.findAll();
 	}
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<?> searchById(@PathVariable String id) {
+	@GetMapping("/{cpf}")
+	public ResponseEntity<?> searchById(@PathVariable String cpf) {
 		
 		
-		return ResponseEntity.ok(usuarioService.searchById(id));
+		return ResponseEntity.ok(usuarioService.searchByCpf(cpf));
 		
 	}
 	

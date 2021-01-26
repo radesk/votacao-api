@@ -29,4 +29,12 @@ public class UsuarioService {
 			throw new EmptyResultDataAccessException(1);
 	}
 
+	public Usuario searchByCpf(String cpf) {
+		Optional<Usuario> savedUsuario = ur.searchByCpf(cpf);
+		if (savedUsuario.isPresent())
+			return savedUsuario.get();
+		else
+			throw new EmptyResultDataAccessException(1);
+	}
+
 }
