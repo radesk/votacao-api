@@ -1,14 +1,17 @@
 package com.dbo.api.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.dbo.api.constants.MessageUtil;
 import com.dbo.api.model.Pauta;
 import com.dbo.api.model.Usuario;
+import com.dbo.api.model.Voto;
 import com.dbo.api.model.VotoRequest;
 import com.dbo.api.model.Votos;
 import com.dbo.api.model.VotosKey;
@@ -68,6 +71,32 @@ public class PautaService {
 				.voto(votoRequest.getVoto())
 				.idVoto(vk)
 				.build());
+	}
+
+	public String contabilizarVotos(String nomePauta) {
+		Pauta pauta = this.searchByNome(nomePauta);
+		
+		if(pauta.getEncerramento().isBefore(LocalDateTime.now())) {
+			String resultado;
+			int total = pauta.getVotos().size();
+			if(total == 0) {
+				return MessageUtil.NAO_FOI_VOTADA;
+			}else {
+				List<Votos> votos = pauta.getVotos();
+				int contra = (int) votos.stream().filter( v -> v.getVoto() == Voto.Não).count();
+				int favor = total - contra;
+				if (favor == contra) resultado = MessageUtil.EMPATADA;
+				else {
+					resultado = favor>contra ? MessageUtil.APROVADA : MessageUtil.REPROVADA;
+				}
+
+				return String.format(MessageUtil.RESULTADO, nomePauta, resultado, favor, contra, total);
+			}
+			
+		}else {
+			return MessageUtil.EM_ANDAMENTO;
+		}
+		
 	}
 
 }

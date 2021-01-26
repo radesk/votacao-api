@@ -72,7 +72,12 @@ public class PautaResource {
 		return ResponseEntity.ok("Voto realizado com sucesso!");
 	}
 	
-	
-	
+	@GetMapping("/contabilizarVotos/{nomePauta}")
+	public ResponseEntity<?> contabilizarVotos(@PathVariable String nomePauta){
+		
+		String resultado = pautaService.contabilizarVotos(nomePauta);
+		
+		return ResponseEntity.ok().body(resultado);
+	}
 	
 }
