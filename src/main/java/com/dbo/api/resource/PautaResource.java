@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dbo.api.constants.MessageUtil;
 import com.dbo.api.event.CreatedResourceEvent;
 import com.dbo.api.model.Pauta;
 import com.dbo.api.model.VotoRequest;
@@ -53,7 +54,7 @@ public class PautaResource {
 			@RequestBody 
 			@Valid
 			Pauta pauta,
-			HttpServletResponse response) throws Exception {
+			HttpServletResponse response) {
 		pauta.setId(UUID.randomUUID().toString());
 		pauta.setNome(pauta.getNome().toLowerCase());
 		pautaService.setEncerramento(pauta);
@@ -65,11 +66,11 @@ public class PautaResource {
 	}
 	
 	@PostMapping("/votar")
-	public ResponseEntity<?> votar(@Valid @RequestBody VotoRequest votoRequest) throws Exception{
+	public ResponseEntity<?> votar(@Valid @RequestBody VotoRequest votoRequest) {
 		
 		pautaService.votar(votoRequest);
 		
-		return ResponseEntity.ok("Voto realizado com sucesso!");
+		return ResponseEntity.ok(MessageUtil.VOTO_REALIZADO);
 	}
 	
 	@GetMapping("/contabilizarVotos/{nomePauta}")

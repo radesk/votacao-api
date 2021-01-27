@@ -16,5 +16,10 @@ public class MessageUtil {
 	public static final String EMPATADA = "emaptada";
 	public static final String APROVADA = "aprovada";
 	public static final String REPROVADA = "reprovada";
+	public static final String VOTO_REALIZADO = "Voto realizado com sucesso!";
+	public static final String ENCERRAMENTO_INVALIDO = "Encerramento não pode ser antes do momento atual";
+	public static final String SEM_PERMISSAO = "Usuário não tem permissão para votar";
+	public static final String ENCERRADA = "A votação dessa pauta já foi encerrada";
+	public static final String JA_VOTOU = "Usuario já votou nesta pauta";
 
 }

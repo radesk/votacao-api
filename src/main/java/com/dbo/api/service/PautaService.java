@@ -4,11 +4,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.dbo.api.constants.MessageUtil;
+import com.dbo.api.exceptionhandler.exceptions.PautaStatusException;
+import com.dbo.api.exceptionhandler.exceptions.PautaTimeException;
+import com.dbo.api.exceptionhandler.exceptions.UsuarioPermissionException;
 import com.dbo.api.model.Pauta;
 import com.dbo.api.model.Usuario;
 import com.dbo.api.model.Voto;
@@ -28,6 +33,8 @@ public class PautaService {
 	@Autowired
 	private VotosService vs;
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(PautaService.class);
+	
 	public Pauta searchByNome(String nome) {
 		Optional<Pauta> savedPauta = Optional.ofNullable(pr.searchByNome(nome));
 		if (savedPauta.isPresent())
@@ -36,16 +43,17 @@ public class PautaService {
 			throw new EmptyResultDataAccessException(1);
 	}
 
-	public void setEncerramento(Pauta pauta) throws Exception {
+	public void setEncerramento(Pauta pauta) throws PautaTimeException {
+		LOGGER.info("Método setEncerramento");
 		if (pauta.getEncerramento() == null) pauta.setEncerramento(LocalDateTime.now().plusMinutes(1));
 		else {
 			if (pauta.getEncerramento().isBefore(LocalDateTime.now())) {
-				throw new Exception("Encerramento não pode ser antes do momento atual");
+				throw new PautaTimeException(MessageUtil.ENCERRAMENTO_INVALIDO);
 			}
 		}
 	}
 
-	public void votar(VotoRequest votoRequest) throws Exception {
+	public void votar(VotoRequest votoRequest) throws UsuarioPermissionException, PautaStatusException {
 		Usuario usuario = us.searchByCpf(votoRequest.getCpf());
 		Pauta pauta = pr.searchByNome(votoRequest.getNomePauta());
 		VotosKey vk = VotosKey.builder()
@@ -54,15 +62,15 @@ public class PautaService {
 				.build();
 				
 		if(usuario.getVota() == null || !usuario.getVota()) {
-			throw new Exception("Usuário não tem permissão para votar");
+			throw new UsuarioPermissionException(MessageUtil.SEM_PERMISSAO);
 		}
 		
 		if(pauta.getEncerramento().isBefore(LocalDateTime.now())) {
-			throw new Exception("A votação dessa pauta já foi encerrada");
+			throw new PautaStatusException(MessageUtil.ENCERRADA);
 		}
 		
 		if (vs.findById(vk).isPresent()) {
-			throw new Exception("Usuario já votou nesta pauta");
+			throw new UsuarioPermissionException(MessageUtil.JA_VOTOU);
 		}
 		
 		vs.save(Votos.builder()

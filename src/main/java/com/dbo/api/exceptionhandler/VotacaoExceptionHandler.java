@@ -20,6 +20,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.dbo.api.exceptionhandler.exceptions.PautaStatusException;
+import com.dbo.api.exceptionhandler.exceptions.PautaTimeException;
+import com.dbo.api.exceptionhandler.exceptions.UsuarioPermissionException;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -55,6 +59,31 @@ public class VotacaoExceptionHandler extends ResponseEntityExceptionHandler{
 		
 		
 		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+	}
+
+	@ExceptionHandler({PautaTimeException.class})
+	private ResponseEntity<Object> handlePautaException(PautaTimeException ex, WebRequest request) {
+		String userMessage = msgSource.getMessage("resource.forbidden", null, LocaleContextHolder.getLocale());
+		String devMsg = ex.getMessage();
+		List<Error> errors = Arrays.asList(new Error(userMessage, devMsg));
+		
+		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+	}
+	@ExceptionHandler({PautaStatusException.class})
+	private ResponseEntity<Object> handlePautaStatusException(PautaStatusException ex, WebRequest request) {
+		String userMessage = msgSource.getMessage("resource.forbidden", null, LocaleContextHolder.getLocale());
+		String devMsg = ex.getMessage();
+		List<Error> errors = Arrays.asList(new Error(userMessage, devMsg));
+		
+		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
+	}
+	@ExceptionHandler({UsuarioPermissionException.class})
+	private ResponseEntity<Object> handleUsuarioPermissionException(UsuarioPermissionException ex, WebRequest request) {
+		String userMessage = msgSource.getMessage("resource.forbidden", null, LocaleContextHolder.getLocale());
+		String devMsg = ex.getMessage();
+		List<Error> errors = Arrays.asList(new Error(userMessage, devMsg));
+		
+		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
 	}
 	
 	private List<Error> buildErrorList(BindingResult br){
