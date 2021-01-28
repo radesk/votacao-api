@@ -18,12 +18,14 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.dbo.api.exceptionhandler.exceptions.PautaStatusException;
 import com.dbo.api.exceptionhandler.exceptions.PautaTimeException;
 import com.dbo.api.exceptionhandler.exceptions.UsuarioPermissionException;
 
+import io.netty.channel.ConnectTimeoutException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -77,6 +79,7 @@ public class VotacaoExceptionHandler extends ResponseEntityExceptionHandler{
 		
 		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
 	}
+	
 	@ExceptionHandler({UsuarioPermissionException.class})
 	private ResponseEntity<Object> handleUsuarioPermissionException(UsuarioPermissionException ex, WebRequest request) {
 		String userMessage = msgSource.getMessage("resource.forbidden", null, LocaleContextHolder.getLocale());
@@ -84,6 +87,22 @@ public class VotacaoExceptionHandler extends ResponseEntityExceptionHandler{
 		List<Error> errors = Arrays.asList(new Error(userMessage, devMsg));
 		
 		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
+	}
+	@ExceptionHandler({WebClientResponseException.class})
+	private ResponseEntity<Object> handleWebClientResponseException(WebClientResponseException ex, WebRequest request) {
+		String userMessage = msgSource.getMessage("cpf.invalid", null, LocaleContextHolder.getLocale());
+		String devMsg = ex.getMessage();
+		List<Error> errors = Arrays.asList(new Error(userMessage, devMsg));
+		
+		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+	}
+	@ExceptionHandler({ConnectTimeoutException.class})
+	private ResponseEntity<Object> handleConnectTimeoutException(ConnectTimeoutException ex, WebRequest request) {
+		String userMessage = msgSource.getMessage("request.timeout", null, LocaleContextHolder.getLocale());
+		String devMsg = ex.toString();
+		List<Error> errors = Arrays.asList(new Error(userMessage, devMsg));
+		
+		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
 	}
 	
 	private List<Error> buildErrorList(BindingResult br){

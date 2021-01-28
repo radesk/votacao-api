@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dbo.api.constants.MessageUtil;
 import com.dbo.api.event.CreatedResourceEvent;
 import com.dbo.api.model.Pauta;
-import com.dbo.api.model.VotoRequest;
+import com.dbo.api.model.request.VotoRequest;
 import com.dbo.api.repository.PautaRepository;
 import com.dbo.api.service.PautaService;
 

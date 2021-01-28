@@ -1,7 +1,9 @@
-package com.dbo.api.model;
+package com.dbo.api.model.request;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import com.dbo.api.model.Voto;
 
 import lombok.Data;
 

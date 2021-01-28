@@ -17,9 +17,9 @@ import com.dbo.api.exceptionhandler.exceptions.UsuarioPermissionException;
 import com.dbo.api.model.Pauta;
 import com.dbo.api.model.Usuario;
 import com.dbo.api.model.Voto;
-import com.dbo.api.model.VotoRequest;
 import com.dbo.api.model.Votos;
 import com.dbo.api.model.VotosKey;
+import com.dbo.api.model.request.VotoRequest;
 import com.dbo.api.repository.PautaRepository;
 
 @Service
