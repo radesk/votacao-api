@@ -1,5 +1,6 @@
 package com.dbo.api.exceptionhandler;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -103,6 +104,15 @@ public class VotacaoExceptionHandler extends ResponseEntityExceptionHandler{
 		List<Error> errors = Arrays.asList(new Error(userMessage, devMsg));
 		
 		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+	}
+
+	@ExceptionHandler({SQLIntegrityConstraintViolationException.class})
+	private ResponseEntity<Object> handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException ex, WebRequest request) {
+		String userMessage = msgSource.getMessage("resource.duplicated", null, LocaleContextHolder.getLocale());
+		String devMsg = ex.toString();
+		List<Error> errors = Arrays.asList(new Error(userMessage, devMsg));
+		
+		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
 	}
 	
 	private List<Error> buildErrorList(BindingResult br){

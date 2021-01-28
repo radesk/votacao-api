@@ -58,7 +58,7 @@ public class UsuarioService {
 		us.setCpf(request.getCpf());
 		us.setVota(request.getVota());
 		us = ur.save(us);
-		publisher.publishEvent(new CreatedResourceEvent(this, response, us.getId()));
+		publisher.publishEvent(new CreatedResourceEvent(this, response, us.getCpf()));
 		
 		return us;
 	}

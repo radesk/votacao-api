@@ -12,7 +12,7 @@ public class OpenApiConfig {
 
 	@Bean
 	public OpenAPI customOpenAPI() {
-		return new OpenAPI().components(new Components()).info(new Info().title("Contact Application API")
-				.description("This is a sample Spring Boot RESTful service using springdoc-openapi and OpenAPI 3."));
+		return new OpenAPI().components(new Components()).info(new Info().title("Votação API")
+				.description("API para realizar a votação de pautas dado uma determinada data final ou com 1 minuto de duração"));
 	}
 }

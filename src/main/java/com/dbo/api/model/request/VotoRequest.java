@@ -16,7 +16,7 @@ public class VotoRequest {
 	@NotBlank
 	private String nomePauta;
 	
-	@NotNull
+	@NotNull(message = "Voto não pode ficar em branco ou nulo")
 	private Voto voto;
 
 }

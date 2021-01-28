@@ -56,6 +56,8 @@ public class PautaService {
 	public void votar(VotoRequest votoRequest) throws UsuarioPermissionException, PautaStatusException {
 		Usuario usuario = us.searchByCpf(votoRequest.getCpf());
 		Pauta pauta = pr.searchByNome(votoRequest.getNomePauta());
+		if(usuario == null) throw new EmptyResultDataAccessException(1);
+		if(pauta == null) throw new EmptyResultDataAccessException(1);
 		VotosKey vk = VotosKey.builder()
 				.idPauta(pauta.getId())
 				.idUsuario(usuario.getId())
