@@ -3,14 +3,20 @@ package com.dbo.api.service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.dbo.api.constants.MessageUtil;
+import com.dbo.api.event.CreatedResourceEvent;
 import com.dbo.api.exceptionhandler.exceptions.PautaStatusException;
 import com.dbo.api.exceptionhandler.exceptions.PautaTimeException;
 import com.dbo.api.exceptionhandler.exceptions.UsuarioPermissionException;
@@ -19,6 +25,7 @@ import com.dbo.api.model.Usuario;
 import com.dbo.api.model.Voto;
 import com.dbo.api.model.Votos;
 import com.dbo.api.model.VotosKey;
+import com.dbo.api.model.request.PautaRequest;
 import com.dbo.api.model.request.VotoRequest;
 import com.dbo.api.repository.PautaRepository;
 
@@ -29,6 +36,9 @@ public class PautaService {
 	
 	@Autowired
 	private UsuarioService us;
+	
+	@Autowired
+	private ApplicationEventPublisher publisher;
 	
 	@Autowired
 	private VotosService vs;
@@ -106,6 +116,20 @@ public class PautaService {
 		}else {
 			return MessageUtil.EM_ANDAMENTO;
 		}
+		
+	}
+
+	public Pauta save(Pauta savedPauta, @Valid PautaRequest request, HttpServletResponse response) {
+		savedPauta.setId(UUID.randomUUID().toString());
+		savedPauta.setNome(request.getNome().toLowerCase());
+		savedPauta.setEncerramento(request.getEncerramento());
+		savedPauta.setDescricao(request.getDescricao());
+		setEncerramento(savedPauta);
+		savedPauta = pr.save(savedPauta);
+		
+		publisher.publishEvent(new CreatedResourceEvent(this, response, savedPauta.getNome()));
+		
+		return savedPauta;
 		
 	}
 

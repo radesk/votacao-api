@@ -12,10 +12,13 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.Tolerate;
 @Data
 @Entity
 @Table(name = "usuario")
+@Builder
 public class Usuario {
 	
 	@Id
@@ -33,4 +36,7 @@ public class Usuario {
 	        orphanRemoval = true
 	    )
 	private List<Votos> votos;
+	
+	@Tolerate
+	Usuario(){}
 }

@@ -5,9 +5,11 @@ import java.time.LocalDateTime;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class PautaRequest {
 	
 	@NotBlank

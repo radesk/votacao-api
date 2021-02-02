@@ -1,13 +1,11 @@
 package com.dbo.api.resource;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dbo.api.constants.MessageUtil;
-import com.dbo.api.event.CreatedResourceEvent;
 import com.dbo.api.model.Pauta;
 import com.dbo.api.model.request.PautaRequest;
 import com.dbo.api.model.request.VotoRequest;
@@ -40,8 +37,7 @@ public class PautaResource {
 	
 	@Autowired
 	private PautaRepository pautaRepository;
-	@Autowired
-	private ApplicationEventPublisher publisher;
+	
 	@Autowired
 	private PautaService pautaService;
 
@@ -84,14 +80,8 @@ public class PautaResource {
 			@Valid
 			PautaRequest request,
 			HttpServletResponse response) {
-		Pauta savedPauta = new Pauta();
-		savedPauta.setId(UUID.randomUUID().toString());
-		savedPauta.setNome(request.getNome().toLowerCase());
-		savedPauta.setEncerramento(request.getEncerramento());
-		pautaService.setEncerramento(savedPauta);
-		savedPauta = pautaRepository.save(savedPauta);
-		
-		publisher.publishEvent(new CreatedResourceEvent(this, response, savedPauta.getNome()));
+		Pauta savedPauta = Pauta.builder().build();
+		savedPauta = pautaService.save(savedPauta, request, response);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedPauta);
 	}

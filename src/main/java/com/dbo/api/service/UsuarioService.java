@@ -53,7 +53,7 @@ public class UsuarioService {
 
 	public Usuario save(@Valid UsuarioRequest request, HttpServletResponse response) throws JsonMappingException, JsonProcessingException {
 		if (request.getVota() == null) request.setVota(terceiros.validaCpf(request.getCpf()));
-		Usuario us = new Usuario();
+		Usuario us = Usuario.builder().build();
 		us.setId(UUID.randomUUID().toString());
 		us.setCpf(request.getCpf());
 		us.setVota(request.getVota());

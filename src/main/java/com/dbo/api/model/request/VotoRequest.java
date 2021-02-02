@@ -5,9 +5,11 @@ import javax.validation.constraints.NotNull;
 
 import com.dbo.api.model.Voto;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class VotoRequest {
 	
 	@NotBlank

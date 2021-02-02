@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dbo.api.model.Usuario;
@@ -62,7 +61,7 @@ public class UsuarioResource {
     		@ApiResponse(responseCode = "404", description = "not found")
     				})	
 	@GetMapping("/{cpf}")
-	public ResponseEntity<?> searchById(@PathVariable String cpf) {
+	public ResponseEntity<?> searchByCpf(@PathVariable String cpf) {
 		
 		
 		return ResponseEntity.ok(usuarioService.searchByCpf(cpf));
@@ -111,9 +110,10 @@ public class UsuarioResource {
     		@ApiResponse(responseCode = "404", description = "not found"),
     				})
 	@DeleteMapping("/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable String id) {
+	public ResponseEntity<?> delete(@PathVariable String id) {
 		usuarioRepository.deleteById(id);
+		
+		return ResponseEntity.noContent().build();
 	}
 	
 }
